@@ -1,0 +1,14 @@
+version: '3.9'
+services:
+    rockiiapp:
+        image: 'rockiiapp:v1'
+        container_name: rockiiapp
+        ports:
+            - '5000:3000'
+        command: sh -c "npx prisma generate;yarn start"
+        volumes:
+            - ./.env:/RockiiApp/.env
+            - ./uploads/:/RockiiApp/uploads/
+            - ./src:/RockiiApp/src/
+            - ./www:/RockiiApp/www/
+            - ./prisma:/RockiiApp/prisma/

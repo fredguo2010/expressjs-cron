@@ -1,0 +1,26 @@
+# Dependencies
+node_modules
+
+# yarn error logs
+yarn-error.log
+
+# Environment varibales
+.env*
+!.env*.example
+
+# dist
+dist
+
+*.log
+*.exe
+
+# Code coverage
+coverage
+
+# www
+www
+
+# uploads
+uploads
+
+# temp

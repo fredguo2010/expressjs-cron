@@ -1,0 +1,562 @@
+components:
+  schemas:
+    Sys_User:
+      type: object
+      properties:
+        cGuid:
+          type: string
+          format: uniqueIdentifier
+          example: "12345678-1234-1234-1234-123456789012"
+        userid:
+          type: string
+          maxLength: 20
+          example: "user123"
+        username:
+          type: string
+          maxLength: 50
+          example: "john_doe"
+        lastname:
+          type: string
+          maxLength: 50
+          example: "Doe"
+        firstname:
+          type: string
+          maxLength: 50
+          example: "John"
+        passwordHash:
+          type: string
+          maxLength: 50
+          example: "hashed_password"
+        salt:
+          type: string
+          format: uniqueIdentifier
+          example: "87654321-4321-4321-4321-210987654321"
+        avatar:
+          type: string
+          maxLength: 255
+          example: "avatar_url.jpg"
+        email:
+          type: string
+          maxLength: 50
+          format: email
+          example: "john.doe@example.com"
+        signature:
+          type: string
+          maxLength: 50
+          example: "User's signature"
+        title:
+          type: string
+          maxLength: 50
+          example: "Software Engineer"
+        group:
+          type: string
+          maxLength: 50
+          example: "Development Team"
+        notifyCount:
+          type: integer
+          format: int32
+          example: 5
+        country:
+          type: string
+          maxLength: 50
+          example: "United States"
+        address:
+          type: string
+          maxLength: 255
+          example: "123 Main St, City, State"
+        phone:
+          type: string
+          maxLength: 50
+          example: "+1 (123) 456-7890"
+        dAddTime:
+          type: string
+          format: date-time
+          example: "2023-09-26T12:34:56Z"
+        role:
+          type: string
+          maxLength: 50
+          example: "admin"
+        
+    Sys_Dictionary:
+      type: object
+      properties:
+        cGuid:
+          type: string
+          format: uniqueIdentifier
+          example: "12345678-1234-1234-1234-123456789012"
+        cName:
+          type: string
+          maxLength: 50
+          example: "Example Name"
+        cValue:
+          type: string
+          maxLength: 50
+          example: "Example Value"
+        cCategory:
+          type: string
+          maxLength: 50
+          example: "Example Category"
+        iStatus:
+          type: integer
+          format: int32
+          example: 1
+        cCreateUserGuid:
+          type: string
+          format: uniqueIdentifier
+          example: "87654321-4321-4321-4321-210987654321"
+        cCreateUserId:
+          type: string
+          maxLength: 20
+          example: "user123"
+        cCreateUserName:
+          type: string
+          maxLength: 50
+          example: "John Doe"
+        dCreateTime:
+          type: string
+          format: date-time
+          example: "2023-09-26T12:34:56Z"
+        cModifyUserGuid:
+          type: string
+          format: uniqueIdentifier
+          example: "78901234-5678-5678-5678-345678901234"
+        cModifyUserId:
+          type: string
+          maxLength: 20
+          example: "user456"
+        cModifyUserName:
+          type: string
+          maxLength: 50
+          example: "Jane Smith"
+        dModifyTime:
+          type: string
+          format: date-time
+          example: "2023-09-26T14:45:30Z"
+          
+    Sys_Log:
+      type: object
+      properties:
+        cGuid:
+          type: string
+          format: uniqueIdentifier
+          example: "12345678-1234-1234-1234-123456789012"
+        dTimeStamp:
+          type: string
+          format: date-time
+          example: "2023-09-26T12:34:56Z"
+        cModule:
+          type: string
+          maxLength: 50
+          example: "Example Module"
+        cActionType:
+          type: string
+          maxLength: 50
+          example: "Example Action Type"
+        cIP:
+          type: string
+          maxLength: 50
+          example: "192.168.1.1"
+        cUserGuid:
+          type: string
+          format: uniqueIdentifier
+          example: "87654321-4321-4321-4321-210987654321"
+        cUserId:
+          type: string
+          maxLength: 20
+          example: "user123"
+        cUserName:
+          type: string
+          maxLength: 50
+          example: "John Doe"
+        cObjectValue:
+          type: string
+          maxLength: 255
+          example: "Object Value"
+        cDescription:
+          type: string
+          maxLength: 255
+          example: "Log description"
+
+    Sys_Menu:
+      type: object
+      properties:
+        cGuid:
+          type: string
+          format: uniqueIdentifier
+          example: "12345678-1234-1234-1234-123456789012"
+        text:
+          type: string
+          maxLength: 50
+          example: "Menu Text"
+        ability:
+          type: string
+          maxLength: 255
+          example: "menu_ability"
+        link:
+          type: string
+          maxLength: 255
+          example: "/menu/link"
+        externalLink:
+          type: string
+          maxLength: 255
+          example: "http://external.link"
+        target:
+          type: string
+          maxLength: 50
+          example: "_blank"
+        i18n:
+          type: string
+          maxLength: 255
+          example: "menu_i18n_key"
+        icon:
+          type: string
+          maxLength: 50
+          example: "menu-icon"
+        memo:
+          type: string
+          maxLength: 255
+          example: "Menu description"
+        status:
+          type: integer
+          format: int32
+          example: 1
+        sort:
+          type: integer
+          format: int32
+          example: 10
+        cParentGuid:
+          type: string
+          format: uniqueIdentifier
+          example: "87654321-4321-4321-4321-210987654321"
+        dAddTime:
+          type: string
+          format: date-time
+          example: "2023-09-26T12:34:56Z"
+
+    Sys_Role:
+      type: object
+      properties:
+        cGuid:
+          type: string
+          format: uniqueIdentifier
+          example: "12345678-1234-1234-1234-123456789012"
+        cRoleCode:
+          type: string
+          maxLength: 50
+          example: "role_code"
+        cRoleName:
+          type: string
+          maxLength: 50
+          example: "Role Name"
+        cDescription:
+          type: string
+          maxLength: 255
+          example: "Role description"
+        dAddTime:
+          type: string
+          format: date-time
+          example: "2023-09-26T12:34:56Z"
+
+    Sys_RoleMenu:
+      type: object
+      properties:
+        cGuid:
+          type: string
+          format: uniqueIdentifier
+          example: "12345678-1234-1234-1234-123456789012"
+        cMenuGuid:
+          type: string
+          format: uniqueIdentifier
+          example: "87654321-4321-4321-4321-210987654321"
+        cRoleGuid:
+          type: string
+          format: uniqueIdentifier
+          example: "78901234-5678-5678-5678-345678901234"
+        bSelect:
+          type: boolean
+          example: true
+        text:
+          type: string
+          maxLength: 50
+          example: "Menu Text"
+        ability:
+          type: string
+          maxLength: 255
+          example: "menu_ability"
+        link:
+          type: string
+          maxLength: 255
+          example: "/menu/link"
+        externalLink:
+          type: string
+          maxLength: 255
+          example: "http://external.link"
+        target:
+          type: string
+          maxLength: 50
+          example: "_blank"
+        i18n:
+          type: string
+          maxLength: 255
+          example: "menu_i18n_key"
+        icon:
+          type: string
+          maxLength: 50
+          example: "menu-icon"
+        memo:
+          type: string
+          maxLength: 255
+          example: "Menu description"
+        status:
+          type: integer
+          format: int32
+          example: 1
+        sort:
+          type: integer
+          format: int32
+          example: 10
+        cParentGuid:
+          type: string
+          format: uniqueIdentifier
+          example: "65432109-8765-8765-8765-432109876543"
+        dAddTime:
+          type: string
+          format: date-time
+          example: "2023-09-26T12:34:56Z"
+
+    Ems_Subsitute:
+      type: object
+      properties:
+        cGuid:
+          type: string
+          format: uniqueIdentifier
+          example: "12345678-1234-1234-1234-123456789012"
+        cName:
+          type: string
+          maxLength: 50
+          example: "电"
+        cCreateUserId:
+          type: string
+          format: uniqueIdentifier
+          example: "12345678-1234-1234-1234-123456789012"
+        cModifyUserId:
+          type: string
+          format: uniqueIdentifier
+          example: "12345678-1234-1234-1234-123456789012"
+
+    Ems_Position:
+      type: object
+      properties:
+        cGuid:
+          type: string
+          format: uniqueIdentifier
+          example: "12345678-1234-1234-1234-123456789012"
+        cName:
+          type: string
+          maxLength: 50
+          example: "通威集团"
+        cPositionCode:
+          type: string
+          maxLength: 50
+          example: "TWAD001"
+        cParentGuid:
+          type: string
+          format: uniqueIdentifier
+          example: "12345678-1234-1234-1234-123456789012"
+        cHeadUserId:
+          type: uniqueIdentifier
+          maxLength: 50
+          example: "12345678-1234-1234-1234-123456789012"
+        iStatus:
+          type: boolean
+          maxLength: 50
+          example: True
+        cCreateUserId:
+          type: string
+          format: uniqueIdentifier
+          example: "12345678-1234-1234-1234-123456789012"
+        cModifyUserId:
+          type: string
+          format: uniqueIdentifier
+          example: "12345678-1234-1234-1234-123456789012"
+
+    Ems_SubItem:
+      type: object
+      properties:
+        cGuid:
+          type: string
+          format: uniqueIdentifier
+          example: "12345678-1234-1234-1234-123456789012"
+        cName:
+          type: string
+          maxLength: 50
+          example: "生产"
+        cCreateUserId:
+          type: string
+          format: uniqueIdentifier
+          example: "12345678-1234-1234-1234-123456789012"
+        cModifyUserId:
+          type: string
+          format: uniqueIdentifier
+          example: "12345678-1234-1234-1234-123456789012"
+
+    Ems_Tag:
+      type: object
+      properties:
+        cTagId:
+          type: string
+          maxLength: 50
+          example: "t-454848454"
+        cStatus:
+          type: boolean
+          maxLength: 50
+          example: "true"
+        cName:
+          type: string
+          maxLength: 50
+          example: "tag1"
+        cDeviceAddress:
+          type: string
+          maxLength: 50
+          example: "192.168.5.12"
+        cDeviceName:
+          type: string
+          maxLength: 50
+          example: "Modbus Device 1"
+        cTagType:
+          type: string
+          maxLength: 50
+          example: "Int16"
+        cTagAddress:
+          type: string
+          maxLength: 50
+          example: "16"
+        cTagMemAddress:
+          type: string
+          maxLength: 50
+          example: "40000"
+        cCreateUserId:
+          type: string
+          format: uniqueIdentifier
+          example: "12345678-1234-1234-1234-123456789012"
+        cModifyUserId:
+          type: string
+          format: uniqueIdentifier
+          example: "12345678-1234-1234-1234-123456789012"
+
+    EMS_Tag_Bind_Meter:
+      type: object
+      properties: 
+        cMeterGuid:
+          type: string
+          format: uniqueIdentifier
+          example: "12345678-1234-1234-1234-123456789012"
+        device: 
+          type: object
+          properties:
+            id:
+              type: string
+              maxLength: 50
+              example: "d_267e6745-c3ae43fb"
+            name:
+              type: string
+              example: "Modbus Device"
+            address: 
+              type: string
+              example: "192.168.1.1"
+        tags:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                maxLength: 50
+                example: "t_267e6745-c3ae43fb"
+              type:
+                type: string
+                example: "Int16"
+              name: 
+                type: string
+                example: "tag1"
+              address:
+                type: string
+                example: "16"
+              memaddress:
+                type: string
+                example: "40000"
+        userId: 
+          type: string
+          example: "12345678-1234-1234-1234-123456789012"
+        
+    Token:
+      type: object
+      properties:
+        token:
+          type: string
+        expires:
+          type: string
+          format: date-time
+      example:
+        token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZWJhYzUzNDk1NGI1NDEzOTgwNmMxMTIiLCJpYXQiOjE1ODkyOTg0ODQsImV4cCI6MTU4OTMwMDI4NH0.m1U63blB0MLej_WfB7yC2FTMnCziif9X8yzwDEfJXAg
+        expires: 2020-05-12T16:18:04.793Z
+
+    AuthTokens:
+      type: object
+      properties:
+        access:
+          $ref: '#/components/schemas/Token'
+        refresh:
+          $ref: '#/components/schemas/Token'
+
+    Error:
+      type: object
+      properties:
+        code:
+          type: number
+        message:
+          type: string
+
+  responses:
+    DuplicateEmail:
+      description: Email already taken
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            code: 400
+            message: Email already taken
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            code: 401
+            message: Please authenticate
+    Forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            code: 403
+            message: Forbidden
+    NotFound:
+      description: Not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            code: 404
+            message: Not found
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

@@ -1,0 +1,419 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model EMS_Meter {
+  cGuid           String           @id @default(dbgenerated("uuid_generate_v4()")) @db.Char(36)
+  cName           String?          @db.VarChar(50)
+  cModel          String?          @db.VarChar(50)
+  cManufacturer   String?          @db.VarChar(50)
+  cPositionFk     String?          @db.Char(36)
+  cSubsituteFk    String?          @db.Char(36)
+  cSubItemFk      String?          @db.Char(36)
+  cReturnZero     BigInt?
+  dCreateTime     DateTime?        @db.Timestamp(6)
+  cCreateUserId   String?          @db.VarChar(50)
+  cCreateUserName String?          @db.VarChar(50)
+  dModifyTime     DateTime?        @db.Timestamp(6)
+  cModifyUserId   String?          @db.VarChar(50)
+  cModifyUserName String?          @db.VarChar(50)
+  iStatus         Boolean?
+  EMS_Position    EMS_Position?    @relation(fields: [cPositionFk], references: [cGuid], onDelete: NoAction, onUpdate: NoAction, map: "FK_EMS_Meter_EMS_Position")
+  EMS_SubItem     EMS_SubItem?     @relation(fields: [cSubItemFk], references: [cGuid], onDelete: NoAction, onUpdate: NoAction, map: "FK_EMS_Meter_EMS_SubItem")
+  EMS_Subsitute   EMS_Subsitute?   @relation(fields: [cSubsituteFk], references: [cGuid], onDelete: NoAction, onUpdate: NoAction, map: "FK_EMS_Meter_EMS_Subsitute")
+  EMS_ReportDay   EMS_ReportDay[]
+  EMS_ReportHour  EMS_ReportHour[]
+  EMS_Tag         EMS_Tag[]
+}
+
+model EMS_Position {
+  cGuid           String      @id @default(dbgenerated("uuid_generate_v4()")) @db.Char(36)
+  cName           String?     @db.VarChar(50)
+  cPositionCode   String?     @db.VarChar(50)
+  cParentGuid     String?     @db.Char(36)
+  cParentName     String?     @db.VarChar(50)
+  cHead           String?     @db.VarChar(50)
+  cHeadUserId     String?     @db.VarChar(50)
+  dCreateTime     DateTime?   @db.Timestamp(6)
+  cCreateUserId   String?     @db.VarChar(50)
+  cCreateUserName String?     @db.VarChar(50)
+  dModifyTime     DateTime?   @db.Timestamp(6)
+  cModifyUserId   String?     @db.VarChar(50)
+  cModifyUserName String?     @db.VarChar(50)
+  iStatus         Boolean?
+  EMS_Meter       EMS_Meter[]
+}
+
+model EMS_RawRecord {
+  cGuid           String    @id @default(dbgenerated("uuid_generate_v4()")) @db.Char(36)
+  cTagId          String?   @db.VarChar(50)
+  cTagName        String?   @db.VarChar(50)
+  dRecordTime     DateTime? @db.Timestamp(6)
+  cValueStart     Decimal?  @db.Decimal(18, 4)
+  cValueEnd       Decimal?  @db.Decimal(18, 4)
+  cDiffValue      Decimal?  @db.Decimal(18, 4)
+  dStart          DateTime? @db.Timestamp(6)
+  dEnd            DateTime? @db.Timestamp(6)
+  dTime           DateTime? @db.Timestamp(6)
+  cDate           String?   @db.VarChar(20)
+  cHour           String?   @db.VarChar(20)
+  cModifyUserGuid String?   @db.Char(36)
+  cModifyUserId   String?   @db.VarChar(50)
+  cModifyUserName String?   @db.VarChar(50)
+  dModifyTime     DateTime? @db.Timestamp(6)
+}
+
+model EMS_ReportDay {
+  cGuid       String     @id @default(dbgenerated("uuid_generate_v4()")) @db.Char(36)
+  cMeterFk    String?    @db.Char(36)
+  cTagId      String?    @db.VarChar(50)
+  cTagName    String?    @db.VarChar(50)
+  dDateTime   DateTime?  @db.Timestamp(6)
+  cValueStart Float?
+  cValueEnd   Float?
+  cDiffValue  Float?
+  EMS_Meter   EMS_Meter? @relation(fields: [cMeterFk], references: [cGuid], onDelete: NoAction, onUpdate: NoAction, map: "FK_EMS_ReportDay_EMS_Meter")
+}
+
+model EMS_ReportHour {
+  cGuid       String     @id @default(dbgenerated("uuid_generate_v4()")) @db.Char(36)
+  cMeterFk    String?    @db.Char(36)
+  cTagId      String?    @db.VarChar(50)
+  cTagName    String?    @db.VarChar(50)
+  dRecordTime DateTime?  @db.Timestamp(6)
+  cValueStart Decimal?   @db.Decimal(18, 4)
+  cValueEnd   Decimal?   @db.Decimal(18, 4)
+  cDiffValue  Decimal?   @db.Decimal(18, 4)
+  EMS_Meter   EMS_Meter? @relation(fields: [cMeterFk], references: [cGuid], onDelete: NoAction, onUpdate: NoAction, map: "FK_EMS_ReportHour_EMS_Meter")
+}
+
+model EMS_SubItem {
+  cGuid           String      @id @default(dbgenerated("uuid_generate_v4()")) @db.Char(36)
+  cName           String?     @db.VarChar(50)
+  dCreateTime     DateTime?   @db.Timestamp(6)
+  cCreateUserId   String?     @db.VarChar(50)
+  cCreateUserName String?     @db.VarChar(50)
+  dModifyTime     DateTime?   @db.Timestamp(6)
+  cModifyUserId   String?     @db.VarChar(50)
+  cModifyUserName String?     @db.VarChar(50)
+  EMS_Meter       EMS_Meter[]
+}
+
+model EMS_Subsitute {
+  cGuid             String      @id @default(dbgenerated("uuid_generate_v4()")) @db.Char(36)
+  cName             String?     @db.VarChar(50)
+  dCreateTime       DateTime?   @db.Timestamp(6)
+  cCreateUserId     String?     @db.VarChar(50)
+  cCreateUserName   String?     @db.VarChar(50)
+  dModifyTime       DateTime?   @db.Timestamp(6)
+  cModifyUserId     String?     @db.VarChar(50)
+  cModifyUserName   String?     @db.VarChar(50)
+  cCoverPictureName String?     @db.VarChar(255)
+  cCoverPicturePath String?     @db.VarChar(255)
+  EMS_Meter         EMS_Meter[]
+}
+
+model EMS_Tag {
+  cGuid           String     @id @default(dbgenerated("uuid_generate_v4()")) @db.Char(36)
+  cTagId          String?    @db.VarChar(50)
+  cName           String?    @db.VarChar(50)
+  cTagType        String?    @db.VarChar(50)
+  cDeviceAddress  String?    @db.VarChar(50)
+  cDeviceName     String?    @db.VarChar(50)
+  cDeviceId       String?    @db.VarChar(50)
+  cTagAddress     String?    @db.VarChar(50)
+  cTagMemAddress  String?    @db.VarChar(50)
+  cMeterFk        String?    @db.Char(36)
+  cUnitFk         String?    @db.Char(36)
+  dCreateTime     DateTime?  @db.Timestamp(6)
+  cCreateUserId   String?    @db.VarChar(50)
+  cCreateUserName String?    @db.VarChar(50)
+  dModifyTime     DateTime?  @db.Timestamp(6)
+  cModifyUserId   String?    @db.VarChar(50)
+  cModifyUserName String?    @db.VarChar(50)
+  iStatus         Boolean?
+  cFriendlyName   String?    @db.VarChar(255)
+  cHubName        String?    @db.VarChar(255)
+  EMS_Meter       EMS_Meter? @relation(fields: [cMeterFk], references: [cGuid], onDelete: NoAction, onUpdate: NoAction, map: "FK_EMS_Tag_EMS_Meter")
+}
+
+model Sys_Dictionary {
+  cGuid           String    @id @db.Char(36)
+  cName           String?   @db.VarChar(50)
+  cValue          String?   @db.VarChar(50)
+  cCategory       String?   @db.VarChar(50)
+  iStatus         Int?
+  cCreateUserGuid String?   @db.Char(36)
+  cCreateUserId   String?   @db.VarChar(50)
+  cCreateUserName String?   @db.VarChar(50)
+  dCreateTime     DateTime? @db.Timestamp(6)
+  cModifyUserGuid String?   @db.Char(36)
+  cModifyUserId   String?   @db.VarChar(50)
+  cModifyUserName String?   @db.VarChar(50)
+  dModifyTime     DateTime? @db.Timestamp(6)
+}
+
+model Sys_Job {
+  cGuid           String    @id @db.Char(36)
+  create_time     DateTime? @db.Timestamp(6)
+  update_time     DateTime? @db.Timestamp(6)
+  code            String?   @db.VarChar(255)
+  cron            String?   @db.VarChar(255)
+  handler         String?   @db.VarChar(255)
+  handler_param   String?   @db.VarChar(2000)
+  name            String?   @db.VarChar(255)
+  notify_emails   String?   @db.VarChar(2000)
+  remark          String?   @db.VarChar(2000)
+  status          Int?      @db.SmallInt
+  create_user_id  String?   @db.VarChar(20)
+  update_user_id  String?   @db.VarChar(20)
+  cCreateUserGuid String?   @db.Char(36)
+  cCreateUserId   String?   @db.VarChar(50)
+  cCreateUserName String?   @db.VarChar(50)
+  dCreateTime     DateTime? @db.Timestamp(6)
+  cModifyUserGuid String?   @db.Char(36)
+  cModifyUserId   String?   @db.VarChar(50)
+  cModifyUserName String?   @db.VarChar(50)
+  dModifyTime     DateTime? @db.Timestamp(6)
+}
+
+model Sys_Job_Log {
+  cGuid           String    @id @default(dbgenerated("uuid_generate_v4()")) @db.Char(36)
+  end_time        DateTime? @db.Timestamp(6)
+  error_info      String?
+  handler_param   String?   @db.VarChar(255)
+  result_info     String?   @db.VarChar(2000)
+  start_time      DateTime? @db.Timestamp(6)
+  status          Int?      @db.SmallInt
+  job_id          String?   @db.Char(36)
+  cCreateUserGuid String?   @db.Char(36)
+  cCreateUserId   String?   @db.VarChar(50)
+  cCreateUserName String?   @db.VarChar(50)
+  dCreateTime     DateTime? @db.Timestamp(6)
+  cModifyUserGuid String?   @db.Char(36)
+  cModifyUserId   String?   @db.VarChar(50)
+  cModifyUserName String?   @db.VarChar(50)
+  dModifyTime     DateTime? @db.Timestamp(6)
+  cJobType        String?   @db.VarChar(50)
+  cJobName        String?   @db.VarChar(255)
+}
+
+model Sys_Job_Mail {
+  cGuid           String    @id @db.Char(36)
+  create_time     DateTime? @db.Timestamp(6)
+  update_time     DateTime? @db.Timestamp(6)
+  cc              String?   @db.VarChar(255)
+  content         String?
+  recipient       String?   @db.VarChar(255)
+  subject         String?   @db.VarChar(255)
+  create_user_id  String?   @db.VarChar(20)
+  update_user_id  String?   @db.VarChar(20)
+  cCreateUserGuid String?   @db.Char(36)
+  cCreateUserId   String?   @db.VarChar(50)
+  cCreateUserName String?   @db.VarChar(50)
+  dCreateTime     DateTime? @db.Timestamp(6)
+  cModifyUserGuid String?   @db.Char(36)
+  cModifyUserId   String?   @db.VarChar(50)
+  cModifyUserName String?   @db.VarChar(50)
+  dModifyTime     DateTime? @db.Timestamp(6)
+}
+
+model Sys_Log {
+  cGuid           String    @id @db.Char(36)
+  dTimeStamp      DateTime? @db.Timestamp(6)
+  cModule         String?   @db.VarChar(50)
+  cActionType     String?   @db.VarChar(50)
+  cIP             String?   @db.VarChar(50)
+  cUserGuid       String?   @db.Char(36)
+  cUserId         String?   @db.VarChar(50)
+  cUserName       String?   @db.VarChar(50)
+  cObjectValue    String?   @db.VarChar(255)
+  cDescription    String?   @db.VarChar(255)
+  cCreateUserGuid String?   @db.Char(36)
+  cCreateUserId   String?   @db.VarChar(50)
+  cCreateUserName String?   @db.VarChar(50)
+  dCreateTime     DateTime? @db.Timestamp(6)
+  cModifyUserGuid String?   @db.Char(36)
+  cModifyUserId   String?   @db.VarChar(50)
+  cModifyUserName String?   @db.VarChar(50)
+  dModifyTime     DateTime? @db.Timestamp(6)
+}
+
+model Sys_Menu {
+  cGuid           String    @id @default(dbgenerated("uuid_generate_v4()")) @db.Char(36)
+  text            String?   @db.VarChar(50)
+  ability         String?   @db.VarChar(255)
+  link            String?   @db.VarChar(255)
+  externalLink    String?   @db.VarChar(255)
+  target          String?   @db.VarChar(50)
+  i18n            String?   @db.VarChar(255)
+  icon            String?   @db.VarChar(50)
+  memo            String?   @db.VarChar(255)
+  status          Int?
+  sort            Int?
+  cParentGuid     String?   @db.Char(36)
+  dAddTime        DateTime? @db.Timestamp(6)
+  cCreateUserGuid String?   @db.Char(36)
+  cCreateUserId   String?   @db.VarChar(50)
+  cCreateUserName String?   @db.VarChar(50)
+  dCreateTime     DateTime? @db.Timestamp(6)
+  cModifyUserGuid String?   @db.Char(36)
+  cModifyUserId   String?   @db.VarChar(50)
+  cModifyUserName String?   @db.VarChar(50)
+  dModifyTime     DateTime? @db.Timestamp(6)
+}
+
+model Sys_Org {
+  cGuid           String    @id @db.Char(36)
+  cOrgCode        String?   @db.VarChar(50)
+  cOrgName        String?   @db.VarChar(255)
+  cOrgType        String?   @db.VarChar(50)
+  cParentGuid     String?   @db.Char(36)
+  cParentOrgCode  String?   @db.VarChar(20)
+  cParentOrgName  String?   @db.VarChar(255)
+  cHead           String?   @db.VarChar(50)
+  cHeadUserGuid   String?   @db.Char(36)
+  cHeadUserId     String?   @db.VarChar(20)
+  iStatus         Int?
+  cCreateUserGuid String?   @db.Char(36)
+  cCreateUserId   String?   @db.VarChar(50)
+  cCreateUserName String?   @db.VarChar(50)
+  dCreateTime     DateTime? @db.Timestamp(6)
+  cModifyUserGuid String?   @db.Char(36)
+  cModifyUserId   String?   @db.VarChar(50)
+  cModifyUserName String?   @db.VarChar(50)
+  dModifyTime     DateTime? @db.Timestamp(6)
+}
+
+model Sys_Role {
+  cGuid           String    @id @db.Char(36)
+  cRoleCode       String?   @db.VarChar(50)
+  cRoleName       String?   @db.VarChar(50)
+  cDescription    String?   @db.VarChar(255)
+  dAddTime        DateTime? @db.Timestamp(6)
+  cCreateUserGuid String?   @db.Char(36)
+  cCreateUserId   String?   @db.VarChar(50)
+  cCreateUserName String?   @db.VarChar(50)
+  dCreateTime     DateTime? @db.Timestamp(6)
+  cModifyUserGuid String?   @db.Char(36)
+  cModifyUserId   String?   @db.VarChar(50)
+  cModifyUserName String?   @db.VarChar(50)
+  dModifyTime     DateTime? @db.Timestamp(6)
+}
+
+model Sys_RoleMenu {
+  cGuid           String    @id @db.Char(36)
+  cMenuGuid       String    @db.Char(36)
+  cRoleGuid       String    @db.Char(36)
+  text            String?   @db.VarChar(50)
+  ability         String?   @db.VarChar(255)
+  link            String?   @db.VarChar(255)
+  externalLink    String?   @db.VarChar(255)
+  target          String?   @db.VarChar(50)
+  i18n            String?   @db.VarChar(255)
+  icon            String?   @db.VarChar(50)
+  memo            String?   @db.VarChar(255)
+  status          Int?
+  sort            Int?
+  cParentGuid     String?   @db.Char(36)
+  dAddTime        DateTime? @db.Timestamp(6)
+  cCreateUserGuid String?   @db.Char(36)
+  cCreateUserId   String?   @db.VarChar(50)
+  cCreateUserName String?   @db.VarChar(50)
+  dCreateTime     DateTime? @db.Timestamp(6)
+  cModifyUserGuid String?   @db.Char(36)
+  cModifyUserId   String?   @db.VarChar(50)
+  cModifyUserName String?   @db.VarChar(50)
+  dModifyTime     DateTime? @db.Timestamp(6)
+  bSelect         Boolean?  @default(false)
+}
+
+model Sys_Token {
+  cGuid           String    @id @db.Char(36)
+  token           String?   @db.VarChar(1000)
+  userid          String?   @db.VarChar(50)
+  expires         DateTime? @db.Timestamp(6)
+  type            String?   @db.VarChar(50)
+  cCreateUserGuid String?   @db.Char(36)
+  cCreateUserId   String?   @db.VarChar(50)
+  cCreateUserName String?   @db.VarChar(50)
+  dCreateTime     DateTime? @db.Timestamp(6)
+  cModifyUserGuid String?   @db.Char(36)
+  cModifyUserId   String?   @db.VarChar(50)
+  cModifyUserName String?   @db.VarChar(50)
+  dModifyTime     DateTime? @db.Timestamp(6)
+  blacklisted     Boolean?  @default(false)
+}
+
+model Sys_User {
+  cGuid           String    @id @db.Char(36)
+  userid          String    @db.VarChar(50)
+  username        String?   @db.VarChar(50)
+  lastname        String?   @db.VarChar(50)
+  firstname       String?   @db.VarChar(50)
+  passwordHash    String?   @db.VarChar(50)
+  salt            String?   @db.Char(36)
+  avatar          String?   @db.VarChar(255)
+  email           String?   @db.VarChar(50)
+  signature       String?   @db.VarChar(50)
+  title           String?   @db.VarChar(50)
+  group           String?   @db.VarChar(50)
+  notifyCount     Int?
+  country         String?   @db.VarChar(50)
+  address         String?   @db.VarChar(255)
+  phone           String?   @db.VarChar(50)
+  dAddTime        DateTime? @db.Timestamp(6)
+  role            String?   @db.VarChar(50)
+  cCreateUserGuid String?   @db.Char(36)
+  cCreateUserId   String?   @db.VarChar(50)
+  cCreateUserName String?   @db.VarChar(50)
+  dCreateTime     DateTime? @db.Timestamp(6)
+  cModifyUserGuid String?   @db.Char(36)
+  cModifyUserId   String?   @db.VarChar(50)
+  cModifyUserName String?   @db.VarChar(50)
+  dModifyTime     DateTime? @db.Timestamp(6)
+}
+
+model Sys_Login_Log {
+  cGuid           String    @id @db.Char(36)
+  browser         String?   @db.VarChar(255)
+  device_type     String?   @db.VarChar(255)
+  ip              String?   @db.VarChar(255)
+  login_time      DateTime? @db.Timestamp(6)
+  region          String?   @db.VarChar(255)
+  system_name     String?   @db.VarChar(255)
+  token           String?
+  userid          String?   @db.VarChar(50)
+  cCreateUserGuid String?   @db.Char(36)
+  cCreateUserId   String?   @db.VarChar(50)
+  cCreateUserName String?   @db.VarChar(50)
+  dCreateTime     DateTime? @db.Timestamp(6)
+  cModifyUserGuid String?   @db.Char(36)
+  cModifyUserId   String?   @db.VarChar(50)
+  cModifyUserName String?   @db.VarChar(50)
+  dModifyTime     DateTime? @db.Timestamp(6)
+}
+
+model EMS_RawRecordHourly {
+  cGuid           String    @id @default(dbgenerated("uuid_generate_v4()")) @db.Char(36)
+  cTagId          String?   @db.VarChar(50)
+  cTagName        String?   @db.VarChar(50)
+  dRecordTime     DateTime? @db.Timestamp(6)
+  cValueStart     Decimal?  @db.Decimal(18, 4)
+  cValueEnd       Decimal?  @db.Decimal(18, 4)
+  cDiffValue      Decimal?  @db.Decimal(18, 4)
+  dStart          DateTime? @db.Timestamp(6)
+  dEnd            DateTime? @db.Timestamp(6)
+  dTime           DateTime? @db.Timestamp(6)
+  cDate           String?   @db.VarChar(20)
+  cHour           String?   @db.VarChar(20)
+  cModifyUserGuid String?   @db.Char(36)
+  cModifyUserId   String?   @db.VarChar(50)
+  cModifyUserName String?   @db.VarChar(50)
+  dModifyTime     DateTime? @db.Timestamp(6)
+}
